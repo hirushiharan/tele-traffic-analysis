@@ -1,0 +1,7 @@
+tweepy
+hdfs
+pyspark
+textblob
+nltk
+matplotlib
+seaborn

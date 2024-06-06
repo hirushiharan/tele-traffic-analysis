@@ -1,0 +1,33 @@
+version: '3'
+services:
+  hadoop:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-hadoop
+    container_name: hadoop
+    ports:
+      - "50070:50070"
+      - "8020:8020"
+
+  spark:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-spark
+    container_name: spark
+    ports:
+      - "4040:4040"
+      - "7077:7077"
+    depends_on:
+      - hadoop
+
+  python-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-python
+    container_name: python-app
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - spark
