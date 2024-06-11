@@ -1,7 +1,7 @@
 """
     Program: Telecommunication Traffic Analysis
     Author: Hirushiharan Thevendran
-    Organization: UoM Distributive 
+    Organization: UoM Distributed Computing Concepts for AI module mini project 
     Created On: 06/12/2024
     Last modified By: Hirushiharan
     Last Modified On: 06/12/2024
