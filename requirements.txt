@@ -5,3 +5,5 @@ textblob
 nltk
 matplotlib
 seaborn
+pandas
+mysql-connector-python
