@@ -20,6 +20,21 @@ services:
     depends_on:
       - hadoop
 
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+      - ./docker/create_views.sql:/docker-entrypoint-initdb.d/create_views.sql
+
   python-app:
     build:
       context: .
@@ -30,4 +45,8 @@ services:
     volumes:
       - .:/app
     depends_on:
+      - mysql
       - spark
+
+volumes:
+  mysql_data:
