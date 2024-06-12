@@ -1,5 +1,5 @@
 -- Create Telecommunication Traffic Data database
-CREATE DATABASE IF NOT EXISTS `telecom_db` ;
+CREATE DATABASE IF NOT EXISTS `telecom_db` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE telecom_db;
 
@@ -7,15 +7,15 @@ USE telecom_db;
 CREATE TABLE IF NOT EXISTS `users` (
     ID INT(11) AUTO_INCREMENT PRIMARY KEY,
     PHONE_NUMBER INT(11),
-    USER_NAME VARCHAR(255),
-    USER_EMAIL VARCHAR(255)
+    USER_NAME VARCHAR(255) NOT NULL,
+    USER_EMAIL VARCHAR(255) NOT NULL
 );
 
 -- Create Cell Towers table
 CREATE TABLE IF NOT EXISTS `cell_towers` (
     ID INT(11) AUTO_INCREMENT PRIMARY KEY,
-    TOWER_NAME VARCHAR(255),
-    TOWER_LOCATION VARCHAR(255)
+    TOWER_NAME VARCHAR(255) NOT NULL,
+    TOWER_LOCATION VARCHAR(255) NOT NULL
 );
 
 -- Create Calls table
@@ -33,3 +33,9 @@ CREATE TABLE IF NOT EXISTS `calls`(
     FOREIGN KEY (CALLER_TOWER_ID) REFERENCES `cell_towers`(ID),
     FOREIGN KEY (CALEE_TOWER_ID) REFERENCES `cell_towers`(ID)
 );
+
+-- Add indexes
+CREATE INDEX idx_caller_user_id ON calls (CALLER_USER_ID);
+CREATE INDEX idx_callee_user_id ON calls (CALEE_USER_ID);
+CREATE INDEX idx_caller_tower_id ON calls (CALLER_TOWER_ID);
+CREATE INDEX idx_callee_tower_id ON calls (CALEE_TOWER_ID);
