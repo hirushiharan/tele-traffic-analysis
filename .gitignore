@@ -155,4 +155,4 @@ dmypy.json
 cython_debug/
 
 # Test files
-scripts/test.py
+scripts/python/test.py
