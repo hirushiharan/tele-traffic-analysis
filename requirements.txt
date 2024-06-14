@@ -1,9 +1,9 @@
-tweepy
-hdfs
-pyspark
-textblob
-nltk
-matplotlib
-seaborn
-pandas
+python-dotenv
 mysql-connector-python
+flask
+Faker
+pyspark
+pandas
+seaborn
+matplotlib
+hdfs
