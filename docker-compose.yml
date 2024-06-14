@@ -8,6 +8,10 @@ services:
     ports:
       - "50071:50071"
       - "8020:8020"
+    environment:
+      - HADOOP_VERSION=3.3.6
+      - HADOOP_HOME=/opt/hadoop
+      - JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
   spark:
     build:
@@ -31,6 +35,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./docker/1_init_db.sql:/docker-entrypoint-initdb.d/1_init_db.sql
       - ./docker/2_create_views.sql:/docker-entrypoint-initdb.d/2_create_views.sql
+    command: --max-allowed-packet=256M
 
   python-app:
     build:
