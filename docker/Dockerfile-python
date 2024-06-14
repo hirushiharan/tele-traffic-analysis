@@ -18,4 +18,4 @@ COPY .env .env
 EXPOSE 5000
 
 # Start application
-CMD ["python", "scripts/your_script.py"]
+CMD ["python", "scripts/app.py"]
