@@ -156,3 +156,6 @@ cython_debug/
 
 # Test files
 scripts/python/test.py
+
+# Jar/Zip files
+docker/mysql-connector/mysql-connector-j-8.0.33.tar.gz
