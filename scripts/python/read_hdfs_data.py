@@ -111,7 +111,7 @@ def main():
     log("Starting Spark session...", "INFO")
     spark = create_spark_session()
 
-    dataframes = ["processed_data", "busiest_hour", "high_value_users", "low_usage_users", "call_data_by_tower"]
+    dataframes = ["processed_data", "busiest_hour", "high_value_users", "low_usage_users", "call_data_by_tower", "call_duration_per_user"]
 
     try:
         for dataframe in dataframes:
