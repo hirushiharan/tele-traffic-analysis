@@ -39,6 +39,9 @@ from pyspark.sql.functions import row_number
 from pyspark.sql.functions import sum as Fsum
 from pyspark.sql.functions import col, hour, concat, isnan, when
 
+hadoop_path = "/user/hadoop/telecom_data/"
+hadoop_files = ["processed_data", "busiest_hour", "high_value_users", "low_usage_users", "call_data_by_tower", "call_duration_per_user"]
+
 # Load environment variables from the .env file
 load_dotenv()
 
@@ -263,12 +266,12 @@ def main():
         call_duration_per_user_df = calculate_total_call_duration_per_user(df)
 
         # Write DataFrames to HDFS in Parquet format
-        write_data_to_hdfs(df, "/user/hadoop/telecom_data/processed_data")
-        write_data_to_hdfs(busiest_hour, "/user/hadoop/telecom_data/busiest_hour")
-        write_data_to_hdfs(high_value_users, "/user/hadoop/telecom_data/high_value_users")
-        write_data_to_hdfs(low_usage_users, "/user/hadoop/telecom_data/low_usage_users")
-        write_data_to_hdfs(call_data_by_tower_df, "/user/hadoop/telecom_data/call_data_by_tower")
-        write_data_to_hdfs(call_duration_per_user_df, "/user/hadoop/telecom_data/call_duration_per_user")
+        write_data_to_hdfs(df, f"{hadoop_path}{hadoop_files[0]}")
+        write_data_to_hdfs(busiest_hour, f"{hadoop_path}{hadoop_files[1]}")
+        write_data_to_hdfs(high_value_users, f"{hadoop_path}{hadoop_files[2]}")
+        write_data_to_hdfs(low_usage_users, f"{hadoop_path}{hadoop_files[3]}")
+        write_data_to_hdfs(call_data_by_tower_df, f"{hadoop_path}{hadoop_files[4]}")
+        write_data_to_hdfs(call_duration_per_user_df, f"{hadoop_path}{hadoop_files[5]}")
 
         log("Data preprocessing completed.", "INFO")
 
