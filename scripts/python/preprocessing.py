@@ -5,7 +5,7 @@ Author: Hirushiharan Thevendran
 Organization: UoM Distributed Computing Concepts for AI module mini project
 Created On: 06/15/2024
 Last modified By: Hirushiharan
-Last Modified On: 06/15/2024
+Last Modified On: 06/16/2024
 
 Program Description: A program to load data from a MySQL view into HDFS using Spark. This script connects to a MySQL database,
 retrieves data from a specific view, and writes it into HDFS in Parquet format after processing the data after pre-processing the data.
@@ -130,7 +130,7 @@ def calculate_total_call_duration_per_user(df):
     call_duration_per_user = df.groupBy("caller_user_name").agg({"call_duration": "sum"}).withColumnRenamed("sum(call_duration)", "total_call_duration")
     return call_duration_per_user
 
-def find_busiest_hour(df):
+def find_busiest_hour(df, spark):
     """
     Find the busiest hour of the day based on call start and end times.
 
@@ -160,7 +160,10 @@ def find_busiest_hour(df):
     # Count the number of calls for each hour
     busiest_hour = df.groupBy("call_hour").count().orderBy(col("count").desc()).first()
     
-    return busiest_hour
+    # Convert the result to a DataFrame
+    busiest_hour_df = spark.createDataFrame([busiest_hour])
+    
+    return busiest_hour_df
 
 def group_customers_by_usage(df):
     """
@@ -173,13 +176,21 @@ def group_customers_by_usage(df):
         DataFrame: Spark DataFrame with customers grouped based on usage patterns.
     """
     log("Grouping customers based on their usage patterns...", "INFO")
-    # Here, we calculate the total call duration per user and categorize them as high-value or low-usage customers
-    window_spec = Window.partitionBy().orderBy(desc("total_call_duration"))
+    # Calculate the total call duration per user
     call_duration_per_user = calculate_total_call_duration_per_user(df)
+    
+    # Define window specification with partition by 'caller_user_name'
+    window_spec = Window.partitionBy("caller_user_name").orderBy(desc("total_call_duration"))
+    
+    # Rank users based on their total call duration
     call_duration_per_user = call_duration_per_user.withColumn("rank", row_number().over(window_spec))
+    
+    # Filter to identify high-value and low-usage customers
     high_value_users = call_duration_per_user.filter(col("rank") <= lit(100))  # Assuming top 100 users are high-value customers
-    low_usage_users = call_duration_per_user.filter(col("rank") > lit(100))     # Assuming remaining users are low-usage customers
+    low_usage_users = call_duration_per_user.filter(col("rank") > lit(100))    # Assuming remaining users are low-usage customers
+    
     return high_value_users, low_usage_users
+
 
 def aggregate_call_data_by_tower(df):
     """
@@ -246,7 +257,7 @@ def main():
         df = load_data_from_mysql(spark, mysql_props)
         df = remove_null_rows(df)
         df = remove_duplicate_records(df)        
-        busiest_hour  = find_busiest_hour(df)
+        busiest_hour  = find_busiest_hour(df, spark)
         high_value_users, low_usage_users = group_customers_by_usage(df)
         call_data_by_tower_df = aggregate_call_data_by_tower(df)
 
