@@ -4,7 +4,7 @@ Author: Hirushiharan Thevendran
 Organization: UoM Distributed Computing Concepts for AI module mini project
 Created On: 06/15/2024
 Last Modified By: Hirushiharan
-Last Modified On: 06/15/2024
+Last Modified On: 06/16/2024
 
 Program Description: This script initializes a Spark session, reads Parquet files from HDFS, displays some records for inspection,
 counts the number of records in each partition, and prints the counts.
@@ -111,27 +111,30 @@ def main():
     log("Starting Spark session...", "INFO")
     spark = create_spark_session()
 
+    dataframes = ["processed_data", "busiest_hour", "high_value_users", "low_usage_users", "call_data_by_tower"]
+
     try:
-        file_path = "/user/hadoop/telecom_data"
+        for dataframe in dataframes:
+            file_path = "/user/hadoop/telecom_data/" + dataframe
         
-        # Read Parquet files from HDFS
-        df = read_parquet_files(spark, file_path)
+            # Read Parquet files from HDFS
+            df = read_parquet_files(spark, file_path)
         
-        # Show a few records to inspect the data
-        show_sample_records(df, num_records=10)
+            # Show a few records to inspect the data
+            show_sample_records(df, num_records=10)
 
-        # Get the underlying RDD
-        rdd = df.rdd
+            # Get the underlying RDD
+            rdd = df.rdd
 
-        # Get the number of partitions (each partition corresponds to a file)
-        num_partitions = rdd.getNumPartitions()
-        log(f"Data is divided into {num_partitions} partitions.", "INFO")
+            # Get the number of partitions (each partition corresponds to a file)
+            num_partitions = rdd.getNumPartitions()
+            log(f"Data is divided into {num_partitions} partitions.", "INFO")
 
-        # Count the number of records in each partition
-        counts_per_partition = count_records_per_partition(rdd)
+            # Count the number of records in each partition
+            counts_per_partition = count_records_per_partition(rdd)
 
-        # Print the counts
-        print_partition_counts(counts_per_partition)
+            # Print the counts
+            print_partition_counts(counts_per_partition)
 
     except Exception as e:
         log(f"An error occurred: {str(e)}", "ERROR")
