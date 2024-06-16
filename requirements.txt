@@ -3,7 +3,7 @@ mysql-connector-python
 flask
 Faker
 pyspark
+hdfs
 pandas
 seaborn
 matplotlib
-hdfs
