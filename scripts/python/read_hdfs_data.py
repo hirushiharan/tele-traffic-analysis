@@ -15,6 +15,10 @@ Python Version: 3.9-slim
 from pyspark.sql import SparkSession
 from datetime import datetime
 
+hadoop_path = "/user/hadoop/telecom_data/"
+hadoop_files = ["processed_data", "busiest_hour", "high_value_users", "low_usage_users", "call_data_by_tower", "call_duration_per_user"]
+
+
 def log(message, level="INFO"):
     """
     Log messages with a timestamp and a specific log level.
@@ -111,11 +115,9 @@ def main():
     log("Starting Spark session...", "INFO")
     spark = create_spark_session()
 
-    dataframes = ["processed_data", "busiest_hour", "high_value_users", "low_usage_users", "call_data_by_tower", "call_duration_per_user"]
-
     try:
-        for dataframe in dataframes:
-            file_path = "/user/hadoop/telecom_data/" + dataframe
+        for dataframe in hadoop_files:
+            file_path = f"{hadoop_path}{dataframe}"
         
             # Read Parquet files from HDFS
             df = read_parquet_files(spark, file_path)
