@@ -260,6 +260,7 @@ def main():
         busiest_hour  = find_busiest_hour(df, spark)
         high_value_users, low_usage_users = group_customers_by_usage(df)
         call_data_by_tower_df = aggregate_call_data_by_tower(df)
+        call_duration_per_user_df = calculate_total_call_duration_per_user(df)
 
         # Write DataFrames to HDFS in Parquet format
         write_data_to_hdfs(df, "/user/hadoop/telecom_data/processed_data")
@@ -267,6 +268,7 @@ def main():
         write_data_to_hdfs(high_value_users, "/user/hadoop/telecom_data/high_value_users")
         write_data_to_hdfs(low_usage_users, "/user/hadoop/telecom_data/low_usage_users")
         write_data_to_hdfs(call_data_by_tower_df, "/user/hadoop/telecom_data/call_data_by_tower")
+        write_data_to_hdfs(call_duration_per_user_df, "/user/hadoop/telecom_data/call_duration_per_user")
 
         log("Data preprocessing completed.", "INFO")
 
