@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Install required packages
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget procps && \
+    apt-get install -y --no-install-recommends wget procps x11-apps xvfb openbox && \
     apt-get clean && \
     mkdir -p /usr/share/man/man1 && \
     mkdir -p /usr/lib/jvm && \
