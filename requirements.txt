@@ -5,5 +5,7 @@ Faker
 pyspark
 hdfs
 pandas
+openpyxl
+SQLAlchemy
 seaborn
 matplotlib
