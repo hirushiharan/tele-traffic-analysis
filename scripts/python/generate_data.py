@@ -4,7 +4,7 @@ Author: Hirushiharan Thevendran
 Organization: UoM Distributed Computing Concepts for AI module mini project 
 Created On: 06/12/2024
 Last modified By: Hirushiharan
-Last Modified On: 06/15/2024
+Last Modified On: 06/18/2024
 
 Program Description: A program to generate synthetic data for your MySQL tables, including users, cell towers, and calls, you can use 
 Python with libraries such as faker for generating fake data and pandas for data manipulation. Below is a Python script that generates 
@@ -192,7 +192,7 @@ def main():
     # Set the desired number of users, towers, and calls
     num_users = 10000
     num_towers = 500
-    desired_num_calls = 1000  # Adjust this number to achieve approximately 5MB size for the view
+    desired_num_calls = 100000  # Adjust this number to achieve approximately 5MB size for the view
 
     # Generate user data
     user_data = generate_user_data(fake, num_users)
