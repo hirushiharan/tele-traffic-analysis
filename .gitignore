@@ -157,7 +157,7 @@ cython_debug/
 # Test files
 scripts/python/test.py
 documents/~$ocess-steps.docx
-documents/call_details_view.xlsx
+documents/call_details_view.csv
 
 # Jar/Zip files
 docker/mysql-connector/mysql-connector-j-8.0.33.jar
