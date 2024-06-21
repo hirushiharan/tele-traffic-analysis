@@ -5,7 +5,7 @@ Author: Hirushiharan Thevendran
 Organization: UoM Distributed Computing Concepts for AI module mini project
 Created On: 06/15/2024
 Last modified By: Hirushiharan
-Last Modified On: 06/16/2024
+Last Modified On: 06/20/2024
 
 Program Description: A program to load data from a MySQL view into HDFS using Spark. This script connects to a MySQL database,
 retrieves data from a specific view, and writes it into HDFS in Parquet format after processing the data after pre-processing the data.
@@ -156,12 +156,12 @@ def find_busiest_hour(df, spark):
     # Extract the hour of the day from the combined timestamp column
     df = df.withColumn("call_start_hour", hour("call_start_time"))
     df = df.withColumn("call_end_hour", hour("call_end_time"))
-    
+
     # Combine the start and end hours
     df = df.withColumn("call_hour", concat(col("call_start_hour"), lit("-"), col("call_end_hour")))
     
     # Count the number of calls for each hour
-    busiest_hour = df.groupBy("call_hour").count().orderBy(col("count").desc()).first()
+    busiest_hour = df.groupBy("call_hour").count().orderBy(col("call_hour").asc())
     
     # Convert the result to a DataFrame
     busiest_hour_df = spark.createDataFrame([busiest_hour])
