@@ -4,7 +4,7 @@ Author: Hirushiharan Thevendran
 Organization: UoM Distributed Computing Concepts for AI module mini project
 Created On: 06/15/2024
 Last Modified By: Hirushiharan
-Last Modified On: 06/15/2024
+Last Modified On: 06/21/2024
 
 Program Description: A program to perform data analysis on telecommunication traffic data. This script reads processed data 
 from HDFS in Parquet format and conducts various analyses including descriptive statistics, user-based aggregations, 
@@ -259,6 +259,10 @@ def main():
         analyze_high_value_users(spark)
         analyze_low_usage_users(spark)
         analyze_call_data_by_tower(spark)
+        
+        processed_data_df = spark.read.parquet(f"{hadoop_path}{hadoop_files[0]}")
+        hourly_analysis(processed_data_df)
+        trend_analysis(processed_data_df)
     except Exception as e:
         print(f"An error occurred: {e}")
     finally:
