@@ -158,6 +158,7 @@ cython_debug/
 scripts/python/test.py
 documents/~$ocess-steps.docx
 documents/call_details_view.csv
+documents/telecom_traffic_data.csv
 
 # Jar/Zip files
 docker/mysql-connector/mysql-connector-j-8.0.33.jar
